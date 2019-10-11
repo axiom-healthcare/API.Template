@@ -1,16 +1,27 @@
 # API Template
 
-Boilerplate setup to create a API and includes the following projects:  
+Boilerplate setup to create a API which includes the following projects:  
 1. Data  
-Data Layer of the API build using Entity Framework: object-relational mapping framework.
-This project also leverage Entity Framework Migrations to enable Agile Development of the Underlyging SQL Database.
+`Data Layer` of the API build using Entity Framework: object-relational mapping framework, with a flexible, configurable, `Data Store`.
 2. Data.Tests
-Unit Testing Framework used to test the Data Layer.
-A choice between an SQLite or InMemory data stores are provided to enable the testin of the data layer without affecting the existing database.
-
-
+Unit Testing of the `Data Layer` with support for both InMemory or SQLite `Data Store`s.
+3. Mirations
+Enable Agile development and management the structure of the `Data Store`, using Entity Framework Migrations
 
 ## Data Layer
+### Unit Tests
+> The InMemory `Data Store` is not designed to mimic a relational database. If you want to test against a `Data Store` which behaves like a relational database, then use SQLite.
+
+## Data Store
+Depending on the Environment in use, a different Data Store will be used:
+1. Local `Development` : a Local SQL Database `Data Store`, created with the SQLLocalDb.exe Utility, is used.
+2. Cloud `Development` : an Azure SQL Development Database `Data Store`
+3. Cloud `Stagging` : an Azure SQL Stagging Database `Data Store`
+4. Cloud `Production` : an Azure SQL Production Database `Data Store`
+
+### Migrations
+The functionality provied by the Entity Framework Migrations is used at design time only.
+
 
 #### Nuget Packages
 * Microsoft.EntityFrameworkCore  
