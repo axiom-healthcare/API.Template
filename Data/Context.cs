@@ -15,7 +15,8 @@ namespace Data
     {
         public Context CreateDbContext(string[] args)
         {
-            return new Context(Config.DbOptions());
+            // Name of Migrations Project passed in as parameter
+            return new Context(Config.DbOptions("Migrations"));
         }
     }
 }

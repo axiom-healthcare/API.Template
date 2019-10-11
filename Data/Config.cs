@@ -10,14 +10,18 @@ namespace Data
     class Config
     {
         /// <summary>
-        /// Returns the connection string to an SQL Local DB
+        /// Returns the connection string to an SQL Local DB.
         /// </summary>
-        public static string GetConnectionString()
+        /// <param name="MigrationsProject">Name of Migrations Project</param> 
+        public static string GetConnectionString(string MigrationsProject)
         {
+            var SolutionPath = Directory.GetParent(Directory.GetCurrentDirectory());
+            var DbFilePath = @"\" + MigrationsProject + @"\Data\Data.mdf";
+
             return new DbConnectionStringBuilder
                 {
                     { "Data Source", @"(localdb)\Data" },
-                    { "AttachDbFilename", Directory.GetCurrentDirectory() + @"\Data\Data.mdf" },
+                    { "AttachDbFilename", SolutionPath + DbFilePath },
                     { "Integrated Security", true },
                     { "database", "Data" }
                 }.ConnectionString;
@@ -26,10 +30,11 @@ namespace Data
         /// <summary>
         /// Returns the SQL DB configuration
         /// </summary>
-        public static DbContextOptions<Context> DbOptions()
+        /// <param name="MigrationsProject">Name of Migrations Project</param> 
+        public static DbContextOptions<Context> DbOptions(string MigrationsProject)
         {
             return new DbContextOptionsBuilder<Context>()
-                .UseSqlServer(Config.GetConnectionString())
+                .UseSqlServer(Config.GetConnectionString(MigrationsProject), x => x.MigrationsAssembly(MigrationsProject))
                 .Options;
         }
     }
