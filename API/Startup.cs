@@ -40,6 +40,8 @@ namespace API
 
             app.UseAuthorization();
 
+            // TODO: ETag Middlewere and DTO
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
