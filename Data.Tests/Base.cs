@@ -1,42 +1,49 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
-
+using System.IO;
 
 namespace Data.Tests
 {
+    public enum DataStoreType
+    {
+        InMemory,
+        Sqlite
+    }
     public class Base
     {
-        private bool useSqlite = false;
-        public Context GetDbContext()
+        public Context GetDbContext(DataStoreType type)
         {
-            var builder = new DbContextOptionsBuilder<Context>();
-            if (useSqlite)
+            switch (type)
             {
-                // Use Sqlite DB.
-                builder.UseSqlite("DataSource=:memory:", x => { });
+                case DataStoreType.InMemory:
+                    return this.GetInMemoryDbContext();
+                case DataStoreType.Sqlite:
+                    return this.GetSqliteDbContext();
+                default:
+                    return this.GetInMemoryDbContext();
             }
-            else
-            {
-                // Use In-Memory DB.
-                var ID = Guid.NewGuid().ToString();
-                builder.UseInMemoryDatabase(ID);
-            }
-
-            var dbContext = new Context(builder.Options);
-            if (useSqlite)
-            {
-                // SQLite needs to open connection to the DB.
-                dbContext.Database.OpenConnection();
-            }
-
-            dbContext.Database.EnsureCreated();
-
-            return dbContext;
         }
 
-        public void UseSqlite()
+        private Context GetInMemoryDbContext()
         {
-            useSqlite = true;
+            var builder = new DbContextOptionsBuilder<Context>();
+                builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+
+            var dbContext = new Context(builder.Options);
+                dbContext.Database.EnsureCreated();
+            return dbContext;
+        }
+        private Context GetSqliteDbContext()
+        {
+            var builder = new DbContextOptionsBuilder<Context>();
+                builder.UseSqlite("DataSource=:memory:", x => { });
+            
+            var dbContext = new Context(builder.Options);
+                dbContext.Database.OpenConnection();
+                dbContext.Database.EnsureCreated();
+
+            return dbContext;
         }
     }
 }
