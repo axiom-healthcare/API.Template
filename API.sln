@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrations", "Migrations\Mi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Tests", "Data.Tests\Data.Tests.csproj", "{6113C8F4-8D33-4B10-AC2D-39E08B4D99F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Client", "Data.Client\Data.Client.csproj", "{04372BE7-0E8A-49B3-82B6-FC3522B52AC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Client", "Data.Client\Data.Client.csproj", "{04372BE7-0E8A-49B3-82B6-FC3522B52AC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{E255B260-E3B6-4CBD-86FB-352894CDE0E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{E255B260-E3B6-4CBD-86FB-352894CDE0E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Tests", "API.Tests\API.Tests.csproj", "{F12B1796-E116-4F7E-9162-C1619677717D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{E255B260-E3B6-4CBD-86FB-352894CDE0E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E255B260-E3B6-4CBD-86FB-352894CDE0E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E255B260-E3B6-4CBD-86FB-352894CDE0E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12B1796-E116-4F7E-9162-C1619677717D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12B1796-E116-4F7E-9162-C1619677717D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12B1796-E116-4F7E-9162-C1619677717D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12B1796-E116-4F7E-9162-C1619677717D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
