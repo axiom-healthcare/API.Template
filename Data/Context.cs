@@ -1,12 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Data.Models;
+using Microsoft.Extensions.Logging;
+
 
 namespace Data
 {
     public class Context: DbContext
     {
         public Context(DbContextOptions<Context> options) : base(options) { }
+
 
         // Example DbSet used for illustration purposes
         public DbSet<Entity> Entities { get; set; }

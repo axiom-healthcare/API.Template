@@ -11,7 +11,7 @@ namespace Data.Tests
             //Arrange
 
             //Act
-            var data = GetDbContext(DataStoreType.InMemory);
+            var data = CreateDbContext(DataStoreType.InMemory);
 
             //Assert
             data.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.InMemory");
@@ -22,7 +22,7 @@ namespace Data.Tests
             //Arrange
 
             //Act
-            var data = GetDbContext(DataStoreType.Sqlite);
+            var data = CreateDbContext(DataStoreType.Sqlite);
 
             //Assert
             data.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.Sqlite");

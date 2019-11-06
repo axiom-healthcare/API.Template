@@ -18,7 +18,7 @@ namespace Data.Tests
         }
         private Context InitAndGetDbContext(DataStoreType type)
         {
-            var data = GetDbContext(type);
+            var data = CreateDbContext(type);
 
             // Seed DB before testing
             data.Entities.Add(new Models.Entity()
