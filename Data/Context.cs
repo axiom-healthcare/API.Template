@@ -13,6 +13,18 @@ namespace Data
 
         // Example DbSet used for illustration purposes
         public DbSet<Entity> Entities { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            if (Database.IsSqlite())
+            {
+                modelBuilder.Entity<Entity>()
+               .Property(e => e.Timestamp)
+               .ValueGeneratedOnAddOrUpdate()
+               .IsConcurrencyToken()
+               .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            }
+        }
     }
 
     /// <summary>
