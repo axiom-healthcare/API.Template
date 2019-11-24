@@ -7,21 +7,34 @@ namespace Data.Tests
     public class Entity: Base
     {
         [Fact]
-        public void ShouldContainId()
+        public async void ShouldContainId()
         {
-            //Arrange
-            var data = CreateDbContext(DataStoreType.Sqlite);
-            string name = "Test";
-
             //Act
-            data.Entities.Add(new Models.Entity()
-            {
-                Name = name
-            });
-            data.SaveChanges();
+            var name = "Test";
+            using var data = CreateDbContext(DataStoreType.Sqlite);
+            data.Entities.Add(new Models.Entity() { Name = name });
+            await data.SaveChangesAsync();
+
+            //Arrange
+            var entity = data.Entities.First();
 
             //Assert
-            data.Entities.Count(entity => entity.Name == name).Should().Be(1);
+            entity.Id.Should().BeOfType(typeof(int));
+        }
+        [Fact]
+        public async void ShouldContainName()
+        {
+            //Act
+            var name = "Test";
+            using var data = CreateDbContext(DataStoreType.Sqlite);
+            data.Entities.Add(new Models.Entity() { Name = name });
+            await data.SaveChangesAsync();
+
+            //Arrange
+            var entity = data.Entities.First();
+
+            //Assert
+            entity.Name.Should().BeOfType<string>();
         }
     }
 }
