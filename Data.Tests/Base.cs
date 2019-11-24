@@ -1,6 +1,5 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Data.Common;
 using System.IO;
@@ -10,59 +9,71 @@ namespace Data.Tests
     public enum DataStoreType
     {
         InMemory,
-        Sqlite
+        Sqlite,
+        SqlServer
     }
-    public class Base: IDisposable
+    public class Base
     {
         private DbConnection _connection;
-
-        public Context CreateDbContext(DataStoreType type)
+        private DbContextOptions<Context> CreateSqlServerOptions()
         {
-            switch (type)
-            {
-                case DataStoreType.InMemory:
-                    return CreateInMemoryContext();
-                case DataStoreType.Sqlite:
-                    return CreateSqliteContext();
-                default:
-                    return CreateInMemoryContext();
-            }
+            var connection = Config.GetConnectionString();
+
+            return new DbContextOptionsBuilder<Context>()
+                .UseSqlServer(connection)
+                .Options;
         }
-        public Context CreateSqliteContext()
+        private DbContextOptions<Context> CreateSQLiteOptions()
+        {
+            return new DbContextOptionsBuilder<Context>()
+                .UseSqlite(_connection)
+                .Options;
+        }
+        private DbContextOptions<Context> CreateInMemoryOptions()
+        {
+            return new DbContextOptionsBuilder<Context>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+        }
+        private Context CreateSqlServerContext()
+        {
+            var options = CreateSqlServerOptions();
+            using Context context = new Context(options);
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            return new Context(options);
+        }
+        private Context CreateSqliteContext()
         {
             if (_connection == null)
             {
+                // TODO: Leverage shared data source: DataSource=data;mode=memory;cache=shared
                 _connection = new SqliteConnection("DataSource=:memory:");
                 _connection.Open();
-            }
 
-            var options = new DbContextOptionsBuilder<Context>()
-                .UseSqlite(_connection)
-                .Options;
+                var options = CreateSQLiteOptions();
 
-            using (Context context = new Context(options))
-            {
+                using Context context = new Context(options);
                 context.Database.EnsureCreated();
             }
-         
+
+            return new Context(CreateSQLiteOptions());
+        }
+        private Context CreateInMemoryContext()
+        {
+            var options = CreateInMemoryOptions();
             return new Context(options);
         }
-
-        public Context CreateInMemoryContext()
+        public Context CreateDbContext(DataStoreType type)
         {
-            var options = new DbContextOptionsBuilder<Context>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options;
-
-            return new Context(options);
-        }
-        public void Dispose()
-        {
-            if (_connection != null)
+            return type switch
             {
-                _connection.Dispose();
-                _connection = null;
-            }
+                DataStoreType.InMemory => CreateInMemoryContext(),
+                DataStoreType.Sqlite => CreateSqliteContext(),
+                DataStoreType.SqlServer => CreateSqlServerContext(),
+                _ => CreateInMemoryContext(),
+            };
         }
     }
 }
