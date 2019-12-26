@@ -20,8 +20,7 @@ namespace Data
             {
                 modelBuilder.Entity<Entity>()
                .Property(e => e.Timestamp)
-               .ValueGeneratedOnAddOrUpdate()
-               .IsConcurrencyToken()
+               .IsRowVersion()
                .HasDefaultValueSql("CURRENT_TIMESTAMP");
             }
         }
