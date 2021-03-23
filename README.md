@@ -1,12 +1,19 @@
 # API Template
 
 Boilerplate setup to create a API which includes the following projects:  
-1. Data  
+1. API
+`Service Layer` of the API building using ASP.NET API's.
+2. Data  
 `Data Layer` of the API build using Entity Framework: object-relational mapping framework, with a flexible, configurable, `Data Store`.
-2. Data.Tests
-Unit Testing of the `Data Layer` with support for both InMemory or SQLite `Data Store`s.
 3. Mirations
 Enable Agile development and management the structure of the `Data Store`, using Entity Framework Migrations
+4. Data.Client
+An C# Sample application which uese the `Data Layer`
+5. API.Tests
+Interation Testing of the `Service Layer` using LocalSQLDB as `Data Store`
+6. Data.Tests
+Unit Testing of the `Data Layer` with support for InMemory, SQLite or LocalSQLDB as `Data Store`s.
+
 
 ## Data Layer
 ### Unit Tests
@@ -19,8 +26,20 @@ Depending on the Environment in use, a different Data Store will be used:
 3. Cloud `Stagging` : an Azure SQL Stagging Database `Data Store`
 4. Cloud `Production` : an Azure SQL Production Database `Data Store`
 
-#### Configuration
-1. Update appsettings.json to points to the correct local directory path.
+#### Local Machine Setup
+1. Using command line, Create local SQL DB and ensure the DB exist 
+```
+sqllocaldb create Data
+sqllocaldb info Data
+```
+2. Using command line, Create local testing SQL DB and ensure the BD exist
+```
+sqllocaldb create Data
+sqllocaldb info Data
+```
+3. Update `appsettings.json` to points to the correct local directory path.
+
+Note: Use SQL Management Studio to connect to the Test or Data db's. Enter either (localdb)\Data or (localdb)\Test as Servername.
 
 ### Migrations
 The functionality provied by the Entity Framework Migrations is used at design time only.
@@ -64,3 +83,5 @@ Add-Migration <UserStory>
 ```Powershell
 Update-Database
 ```
+
+TODO: Add walkthrough using Postman to execute queries and see results in database using SQL Management Studio
