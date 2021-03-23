@@ -16,6 +16,7 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // required to manage optimistic concurrency when Sqlite is used
             if (Database.IsSqlite())
             {
                 modelBuilder.Entity<Entity>()
