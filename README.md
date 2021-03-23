@@ -19,6 +19,9 @@ Depending on the Environment in use, a different Data Store will be used:
 3. Cloud `Stagging` : an Azure SQL Stagging Database `Data Store`
 4. Cloud `Production` : an Azure SQL Production Database `Data Store`
 
+#### Configuration
+1. Update appsettings.json to points to the correct local directory path.
+
 ### Migrations
 The functionality provied by the Entity Framework Migrations is used at design time only.
 
@@ -30,7 +33,6 @@ The functionality provied by the Entity Framework Migrations is used at design t
 * Microsoft.EntityFrameworkCore.Tools  
 
 > Note: .Design and .Tools Packages is required to enable Entity Framework Migrations at Design Time
-
 
 ### Applied Agile  
 #### Define   
