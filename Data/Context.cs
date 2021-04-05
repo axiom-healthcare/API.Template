@@ -14,15 +14,18 @@ namespace Data
         // Example DbSet used for illustration purposes
         public DbSet<Entity> Entities { get; set; }
 
+        
+        // Data Store specific configuration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // required to manage optimistic concurrency when Sqlite is used
+            // SQL Lite configure Optimistic Concurrency 
             if (Database.IsSqlite())
             {
-                modelBuilder.Entity<Entity>()
-               .Property(e => e.Timestamp)
-               .IsRowVersion()
-               .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                modelBuilder
+                    .Entity<Entity>()
+                    .Property(e => e.Timestamp)
+                    .IsRowVersion()
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
             }
         }
     }
@@ -34,7 +37,7 @@ namespace Data
     {
         public Context CreateDbContext(string[] args)
         {
-            // Name of Migrations Project passed in as parameter
+            // Name of Migrations Project
             return new Context(Config.DbOptions("Migrations"));
         }
     }
