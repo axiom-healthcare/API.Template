@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Tests
 {
-    public class Entity: Base
+    public class Entity : Base
     {
         [Fact]
         public async void ShouldContainId()
         {
             //Arrange
-            using var data = CreateDbContext(DataStoreType.Sqlite);
+            using var data = CreateDbContext(Provider.Sqlite);
             data.Entities.Add(new Models.Entity() { Name = "Name" });
             await data.SaveChangesAsync();
 
@@ -25,7 +25,7 @@ namespace Data.Tests
         public async void ShouldContainName()
         {
             //Arrange
-            using var data = CreateDbContext(DataStoreType.Sqlite);
+            using var data = CreateDbContext(Provider.Sqlite);
             data.Entities.Add(new Models.Entity() { Name = "Name" });
             await data.SaveChangesAsync();
 
@@ -39,11 +39,12 @@ namespace Data.Tests
         public async void ExceptionShouldBeThrownWhenTryingToUpdateAnOutdatedEntity()
         {
             //Arrange
-            using var data = CreateDbContext(DataStoreType.Sqlite);
+            using var data = CreateDbContext(Provider.Sqlite);
+
             data.Entities.Add(new Models.Entity() { Name = "Name" });
             await data.SaveChangesAsync();
 
-            var entity = data.Entities.First();
+            var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name");
             var Id = entity.Id.ToString();
 
             DbUpdateConcurrencyException exception = null;
@@ -52,6 +53,36 @@ namespace Data.Tests
             entity.Name = "UpdatedName";
             data.Database.ExecuteSqlRaw("UPDATE Entities SET Name = 'Test3' WHERE Id = " + Id);
                 
+            try
+            {
+                data.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                exception = ex;
+            }
+
+            //Assert
+            exception.Should().NotBeNull();
+        }
+        [Fact]
+        public async void ExceptionShouldBeThrownWhenTryingToUpdateAnOutdatedEntitySQL()
+        {
+            //Arrange
+            using var data = CreateDbContext(Provider.Sqlite);
+
+            data.Entities.Add(new Models.Entity() { Name = "Name2" });
+            await data.SaveChangesAsync();
+
+            var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name2");
+            var Id = entity.Id.ToString();
+
+            DbUpdateConcurrencyException exception = null;
+
+            //Act
+            entity.Name = "UpdatedName";
+            data.Database.ExecuteSqlRaw("UPDATE Entities SET Name = 'Test3' WHERE Id = " + Id);
+
             try
             {
                 data.SaveChanges();
