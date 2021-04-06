@@ -31,7 +31,7 @@ namespace Data
     }
 
     /// <summary>
-    /// Class used by Entity Framework Migrations at design time.
+    /// Class used by Entity Framework Migrations at DESIGN TIME ONLY.
     /// </summary>
     public class DbFactory : IDesignTimeDbContextFactory<Context>
     {
