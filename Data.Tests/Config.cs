@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System.IO;
@@ -27,6 +28,30 @@ namespace Data.Tests
 
             var options = new DbContextOptionsBuilder<Context>()
                 .UseSqlServer(connection)
+                .Options;
+
+            return new Context(options);
+        }
+
+        public static Context CreateSQLiteContext()
+        {
+            var connection = new SqliteConnection("Data Source=Test;Mode=Memory;Cache=Shared");
+            connection.Open();
+
+            var options = new DbContextOptionsBuilder<Context>()
+                .UseSqlite(connection)
+                .Options;
+
+            using Context context = new Context(options);
+            context.Database.EnsureCreated();
+
+            return new Context(options);
+        }
+
+        public  static Context CreateSQLInMemoryConext()
+        {
+            var options = new DbContextOptionsBuilder<Context>()
+                .UseInMemoryDatabase("Test")
                 .Options;
 
             return new Context(options);
