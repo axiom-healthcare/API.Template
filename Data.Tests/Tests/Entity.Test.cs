@@ -1,19 +1,21 @@
-﻿using System.Linq;
-using Xunit;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Data.Tests
 {
+    [TestFixture]
     public class Entity : Base
     {
-        [Fact]
-        public async void ShouldContainId()
+        [Test]
+        public async Task ShouldContainId()
         {
             //Arrange
-            using var data = CreateDbContext(Provider.Sqlite);
-            data.Entities.Add(new Models.Entity() { Name = "Name" });
-            await data.SaveChangesAsync();
+            base.data.Entities.Add(new Models.Entity() { Name = "Name" });
+            await base.data.SaveChangesAsync();
 
             //Act
             var entity = data.Entities.First();
@@ -21,60 +23,27 @@ namespace Data.Tests
             //Assert
             entity.Id.Should().BeOfType(typeof(int));
         }
-        [Fact]
-        public async void ShouldContainName()
+        [Test]
+        public async Task ShouldContainName()
         {
             //Arrange
-            using var data = CreateDbContext(Provider.Sqlite);
-            data.Entities.Add(new Models.Entity() { Name = "Name" });
-            await data.SaveChangesAsync();
+            base.data.Entities.Add(new Models.Entity() { Name = "Name" });
+            await base.data.SaveChangesAsync();
 
             //Act
-            var entity = data.Entities.First();
+            var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name");
 
             //Assert
             entity.Name.Should().BeOfType<string>();
         }
-        [Fact]
-        public async void ExceptionShouldBeThrownWhenTryingToUpdateAnOutdatedEntity()
+        [Test]
+        public async Task ExceptionShouldBeThrownWhenTryingToUpdateAnOutdatedEntity()
         {
             //Arrange
-            using var data = CreateDbContext(Provider.Sqlite);
-
-            data.Entities.Add(new Models.Entity() { Name = "Name" });
-            await data.SaveChangesAsync();
+            base.data.Entities.Add(new Models.Entity() { Name = "Name" });
+            await base.data.SaveChangesAsync();
 
             var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name");
-            var Id = entity.Id.ToString();
-
-            DbUpdateConcurrencyException exception = null;
-
-            //Act
-            entity.Name = "UpdatedName";
-            data.Database.ExecuteSqlRaw("UPDATE Entities SET Name = 'Test3' WHERE Id = " + Id);
-                
-            try
-            {
-                data.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                exception = ex;
-            }
-
-            //Assert
-            exception.Should().NotBeNull();
-        }
-        [Fact]
-        public async void ExceptionShouldBeThrownWhenTryingToUpdateAnOutdatedEntitySQL()
-        {
-            //Arrange
-            using var data = CreateDbContext(Provider.Sqlite);
-
-            data.Entities.Add(new Models.Entity() { Name = "Name2" });
-            await data.SaveChangesAsync();
-
-            var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name2");
             var Id = entity.Id.ToString();
 
             DbUpdateConcurrencyException exception = null;

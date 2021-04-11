@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Data.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Data.Tests
 {
@@ -17,6 +19,30 @@ namespace Data.Tests
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build()
                 .GetConnectionString("Test");
+        }
+
+        public static Context CreateContext()
+        {
+            var connection = Config.GetConnectionString();
+
+            var options = new DbContextOptionsBuilder<Context>()
+                .UseSqlServer(connection)
+                .Options;
+
+            return new Context(options);
+        }
+    }
+
+
+    [SetUpFixture]
+    class SetUpFixture
+    {
+        [OneTimeSetUp]
+        public async Task SetUp()
+        {
+            using var context = Config.CreateContext();
+            await context.Database.EnsureDeletedAsync();
+            await context.Database.EnsureCreatedAsync();
         }
     }
 }
