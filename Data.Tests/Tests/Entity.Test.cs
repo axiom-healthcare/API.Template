@@ -1,7 +1,6 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +13,8 @@ namespace Data.Tests
         public async Task ShouldContainId()
         {
             //Arrange
-            base.data.Entities.Add(new Models.Entity() { Name = "Name" });
-            await base.data.SaveChangesAsync();
+            data.Entities.Add(new Models.Entity() { Name = "Name" });
+            await data.SaveChangesAsync();
 
             //Act
             var entity = data.Entities.First();
@@ -27,8 +26,8 @@ namespace Data.Tests
         public async Task ShouldContainName()
         {
             //Arrange
-            base.data.Entities.Add(new Models.Entity() { Name = "Name" });
-            await base.data.SaveChangesAsync();
+            data.Entities.Add(new Models.Entity() { Name = "Name" });
+            await data.SaveChangesAsync();
 
             //Act
             var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name");
@@ -40,8 +39,8 @@ namespace Data.Tests
         public async Task ExceptionShouldBeThrownWhenTryingToUpdateAnOutdatedEntity()
         {
             //Arrange
-            base.data.Entities.Add(new Models.Entity() { Name = "Name" });
-            await base.data.SaveChangesAsync();
+            data.Entities.Add(new Models.Entity() { Name = "Name" });
+            await data.SaveChangesAsync();
 
             var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name");
             var Id = entity.Id.ToString();
