@@ -13,7 +13,8 @@ namespace Data.Tests
         public async Task ShouldContainId()
         {
             //Arrange
-            data.Entities.Add(new Models.Entity() { Name = "Name" });
+            var name = "Name";
+            data.Entities.Add(new Models.Entity() { Name = name });
             await data.SaveChangesAsync();
 
             //Act
@@ -22,27 +23,35 @@ namespace Data.Tests
             //Assert
             entity.Id.Should().BeOfType(typeof(int));
         }
+
         [Test]
         public async Task ShouldContainName()
         {
             //Arrange
-            data.Entities.Add(new Models.Entity() { Name = "Name" });
+            var name = "Name";
+            data.Entities.Add(new Models.Entity() { Name = name });
             await data.SaveChangesAsync();
 
             //Act
-            var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name");
+            var entity = data.Entities.FirstOrDefault(entity => entity.Name == name);
 
             //Assert
             entity.Name.Should().BeOfType<string>();
         }
+
+        /// <summary>
+        /// Testing Optimistic Concurrency
+        /// Updating of data via multiple web clients, at the sametime, may lead to wrong data in Data Store
+        /// </summary>
         [Test]
         public async Task ExceptionShouldBeThrownWhenTryingToUpdateAnOutdatedEntity()
         {
             //Arrange
-            data.Entities.Add(new Models.Entity() { Name = "Name" });
+            var name = "Name";
+            data.Entities.Add(new Models.Entity() { Name = name });
             await data.SaveChangesAsync();
 
-            var entity = data.Entities.FirstOrDefault(entity => entity.Name == "Name");
+            var entity = data.Entities.FirstOrDefault(entity => entity.Name == name);
             var Id = entity.Id.ToString();
 
             DbUpdateConcurrencyException exception = null;

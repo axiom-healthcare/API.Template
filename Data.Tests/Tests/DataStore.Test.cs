@@ -1,14 +1,13 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 
-
 namespace Data.Tests
 {
     [TestFixture]
     class DataStore : Base
     {
         [Test]
-        public void DefaultDataStoreIsSQLLocalDb()
+        public void DefaultDataStoreIsSQL()
         {
             //Assert
             data.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.SqlServer");
@@ -17,7 +16,7 @@ namespace Data.Tests
         public void ShouldBeAbleToUseSqLiteDb()
         {
             //Act
-            var data = Config.CreateSQLiteContext();
+            var data = Store.CreateContext(Store.Provider.SQLite);
 
             //Assert
             data.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.Sqlite");
@@ -26,7 +25,7 @@ namespace Data.Tests
         public void ShouldBeAbleToUseInMemoryDb()
         {
             //Act
-            var data = Config.CreateSQLInMemoryConext();
+            var data = Store.CreateContext(Store.Provider.InMemory);
 
             //Assert
             data.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.InMemory");
