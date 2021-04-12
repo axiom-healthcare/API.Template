@@ -1,13 +1,14 @@
 ﻿using FluentAssertions;
+using NUnit.Framework;
 using System.Net;
 using System.Threading.Tasks;
-using Xunit;
 
 namespace API.Tests
 {
+    [TestFixture]
     public class EntitiesControllerTest : IntergationTest
     {
-        [Fact]
+        [Test]
         public async Task GetEntities_ReturnsStatusOK()
         {
             //Arrange
