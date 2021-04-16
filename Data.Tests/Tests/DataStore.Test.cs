@@ -12,6 +12,7 @@ namespace Data.Tests
             //Assert
             data.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.SqlServer");
         }
+
         [Test]
         public void ShouldBeAbleToUseSqLiteDb()
         {
@@ -21,6 +22,7 @@ namespace Data.Tests
             //Assert
             data.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.Sqlite");
         }
+
         [Test]
         public void ShouldBeAbleToUseInMemoryDb()
         {

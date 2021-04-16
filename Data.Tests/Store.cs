@@ -28,6 +28,7 @@ namespace Data
         {
             return _providers[provider]();
         }
+
         public static Context CreateSQLContext()
         {
             var connection = Tests.Config.GetConnectionString();

@@ -12,6 +12,7 @@ namespace API.Tests
         protected readonly HttpClient client;
 
         protected IntergationTest() {
+            var test = Config.GetConnectionString();
             var APIFactory = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder => {
                     builder.ConfigureServices(services =>
@@ -22,6 +23,5 @@ namespace API.Tests
                 });
             client = APIFactory.CreateClient();
         }
-
     }
 }

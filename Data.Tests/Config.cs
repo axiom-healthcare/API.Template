@@ -38,6 +38,5 @@ namespace Data
                 await context.Database.EnsureCreatedAsync();
             }
         }
-
     }   
 }

@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Data.Models;
-using Microsoft.Extensions.Logging;
-
 
 namespace Data
 {
@@ -10,11 +8,9 @@ namespace Data
     {
         public Context(DbContextOptions<Context> options) : base(options) { }
 
-
         // Example DbSet used for illustration purposes
         public DbSet<Entity> Entities { get; set; }
 
-        
         // Data Store specific configuration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
