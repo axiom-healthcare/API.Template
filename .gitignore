@@ -1,5 +1,7 @@
 .vs
 bin
 obj
-Migrations/Data
-Data.Tests/Data
+Migrations/Data/*.mdf
+Migrations/Data/*.ldf
+Data.Tests/Data/*.mdf
+Data.Tests/Data/*.ldf
