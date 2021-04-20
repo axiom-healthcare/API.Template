@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using Data.Models;
 
 namespace Data
@@ -24,14 +23,6 @@ namespace Data
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             }
         }
-    }
-
-    /// <summary>
-    /// Class used by Entity Framework Migrations at DESIGN TIME ONLY.
-    /// </summary>
-    public class DbFactory : IDesignTimeDbContextFactory<Context>
-    {
-        public Context CreateDbContext(string[] args) => new(Migrations.GetDbOptions("Migrations"));
     }
 }
 
