@@ -31,10 +31,7 @@ namespace Data
     /// </summary>
     public class DbFactory : IDesignTimeDbContextFactory<Context>
     {
-        public Context CreateDbContext(string[] args)
-        {
-            // Name of Migrations Project
-            return new Context(Config.DbOptions("Migrations"));
-        }
+        public Context CreateDbContext(string[] args) => new(Migrations.GetDbOptions("Migrations"));
     }
 }
+

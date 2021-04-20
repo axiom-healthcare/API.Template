@@ -1,7 +1,9 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Data
 {
@@ -31,7 +33,11 @@ namespace Data
 
         public static Context CreateSQLContext()
         {
-            var connection = Tests.Config.GetConnectionString();
+            var connection = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build()
+                .GetConnectionString("Test");
 
             var options = new DbContextOptionsBuilder<Context>()
                 .UseSqlServer(connection)
