@@ -87,3 +87,18 @@ Update-Database
 TODO: Add walkthrough using Postman to execute queries and see results in database using SQL Management Studio
 
 Adjust API URL :  API | Properties | launchSetting.json | launch URL 
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+
+
+                            app.UseAuthentication();
+            app.UseAuthorization();
+
+
+
+                [Authorize]
+    [ApiController]
+    [Route("[controller]")]
+    public class WeatherForecastController : ControllerBase
