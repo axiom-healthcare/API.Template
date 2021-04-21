@@ -17,19 +17,15 @@ namespace API
 
         public IConfiguration Configuration { get; }
 
-        /// <summary>
-        /// Method used to add services.
-        /// </summary>
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Config.GetConnectionString();
+            var connection = Configuration.GetConnectionString("Data");
             services.AddDbContext<Context>(options => options.UseSqlServer(connection));
             services.AddControllers();
         }
 
-        /// <summary>
-        /// Method used to configure HTTP request, reponse pipeline.
-        /// </summary>
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -37,11 +33,11 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+
             app.UseRouting();
 
             app.UseAuthorization();
-
-            // TODO: ETag Middlewere and DTO
 
             app.UseEndpoints(endpoints =>
             {

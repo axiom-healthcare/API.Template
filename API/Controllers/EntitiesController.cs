@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using Data.Models;
 
-namespace API.Controllers
+namespace API.REST.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -41,8 +41,7 @@ namespace API.Controllers
         }
 
         // PUT: api/Entities/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEntity(int id, Entity entity)
         {
@@ -73,8 +72,7 @@ namespace API.Controllers
         }
 
         // POST: api/Entities
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Entity>> PostEntity(Entity entity)
         {
@@ -86,7 +84,7 @@ namespace API.Controllers
 
         // DELETE: api/Entities/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Entity>> DeleteEntity(int id)
+        public async Task<IActionResult> DeleteEntity(int id)
         {
             var entity = await _context.Entities.FindAsync(id);
             if (entity == null)
@@ -97,7 +95,7 @@ namespace API.Controllers
             _context.Entities.Remove(entity);
             await _context.SaveChangesAsync();
 
-            return entity;
+            return NoContent();
         }
 
         private bool EntityExists(int id)
