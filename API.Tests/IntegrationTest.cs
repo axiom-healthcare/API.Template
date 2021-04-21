@@ -18,7 +18,7 @@ namespace API.Tests
                     builder.ConfigureServices(services =>
                     {
                         services.RemoveAll(typeof(Context));
-                        services.AddDbContext<Context>(options => options.UseInMemoryDatabase("IntegrationTestsDb"));
+                        services.AddDbContext<Context>(options => options.UseInMemoryDatabase("Test"));
                     });
                 });
             client = APIFactory.CreateClient();
