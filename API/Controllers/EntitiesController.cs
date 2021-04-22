@@ -42,6 +42,7 @@ namespace API.REST.Controllers
 
         // PUT: api/Entities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // Complete Entity is required in body of request
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEntity(int id, Entity entity)
         {
@@ -81,6 +82,7 @@ namespace API.REST.Controllers
 
             return CreatedAtAction("GetEntity", new { id = entity.Id }, entity);
         }
+
 
         // DELETE: api/Entities/5
         [HttpDelete("{id}")]

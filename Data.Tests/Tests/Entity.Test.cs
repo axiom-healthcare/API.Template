@@ -72,5 +72,38 @@ namespace Data.Tests
             //Assert
             exception.Should().NotBeNull();
         }
+
+        /// <summary>
+        /// Testing Optimistic Concurrency
+        /// Updating of data via multiple web clients, at the sametime, may lead to wrong data in Data Store
+        /// </summary>
+        [Test]
+        public async Task ExceptionShouldNotBeThrownWhenTryingToUpdateAnEntity()
+        {
+            //Arrange
+            var name = "Name";
+            data.Entities.Add(new Models.Entity() { Name = name });
+            await data.SaveChangesAsync();
+
+            var entity = data.Entities.FirstOrDefault(entity => entity.Name == name);
+            var Id = entity.Id.ToString();
+
+            DbUpdateConcurrencyException exception = null;
+
+            //Act
+            entity.Name = "UpdatedName";
+
+            try
+            {
+                data.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                exception = ex;
+            }
+
+            //Assert
+            exception.Should().BeNull();
+        }
     }
 }

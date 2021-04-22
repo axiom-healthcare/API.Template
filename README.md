@@ -102,3 +102,6 @@ Adjust API URL :  API | Properties | launchSetting.json | launch URL
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
+
+
+    https://www.carlrippon.com/handling-concurrency-in-an-asp-net-core-web-api-with-dapper/
