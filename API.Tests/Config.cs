@@ -14,13 +14,13 @@ namespace API.Tests
                 .Build()
                 .GetConnectionString("Test");
         
-        public static DbContextOptions<Context> GetSQLContextOptions() => 
+        public static DbContextOptions<Context> GetContextOptions() => 
             new DbContextOptionsBuilder<Context>()
                    .UseSqlServer(Config.GetConnectionString())
                    .Options;
 
-        public static Context CreateSQLContext() => 
-            new Context(Config.GetSQLContextOptions());
+        public static Context CreateContext() => 
+            new Context(Config.GetContextOptions());
 
     }
 }

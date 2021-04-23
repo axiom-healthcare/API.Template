@@ -14,42 +14,47 @@ namespace API.Tests.Steps
     {
         protected new Context data = null!;
         private HttpResponseMessage response;
+        private Entity entity;
 
         [Before]
         public void Before()
         {
-            data = Config.CreateSQLContext();
+            data = Config.CreateContext();
         }
 
         [Given(@"An Entity was added to the Data Store")]
         public void AnEntityWasAddedToDataStore()
         {
-            data.Entities.Add(new Entity()
+            entity = new Entity()
             {
                 Name = "Test"
-            });
+            };
+
+            data.Entities.Add(entity);
             data.SaveChanges();
         }
 
-        [When(@"I send a HTTP GET Request to \./Entities")]
-        public async Task WhenISendAHTTPGETRequestTo_EntitiesAsync()
+        [When(@"I send a GET Request to \./Entities")]
+        public async Task WhenGetEntities()
         {
             response = await client.GetAsync(Routes.Entities.GetAll);
         }
         
-        [Then(@"An HttpStatusCode\.Ok should be returned")]
-        public void ThenTheIShouldHttpStatusCode_OkShouldBeReturned()
+        [Then(@"An Ok HTTP Status Code should be returned")]
+        public void ThenOKCodeShouldBeReturned()
         {
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Then(@"one Entity should be returned")]
-        public async Task OneEnityShoulsBeReturned()
+        [Then(@"The Entity should be returned")]
+        public async Task ThenThenEntityShouldBeReturned()
         {
-            var entities = await response.Content.ReadAsStringAsync();
-            var entityCount = JsonConvert.DeserializeObject<Entity[]>(entities).Length;
+            var content = await response.Content.ReadAsStringAsync();
+            var entities = JsonConvert.DeserializeObject<Entity[]>(content);
+            var count = entities.Length;
 
-            entityCount.Should().Be(1);
+            count.Should().Be(1);
+            entities[0].Id.Should().Be(entity.Id);
         }
 
         [After]

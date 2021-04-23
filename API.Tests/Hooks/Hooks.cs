@@ -9,7 +9,7 @@ namespace API.Tests.Hooks
         [BeforeTestRun]
         public static async Task BeforeTestRun()
         {
-            using var context = Config.CreateSQLContext();
+            using var context = Config.CreateContext();
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
         }

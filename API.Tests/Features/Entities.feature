@@ -2,11 +2,11 @@
 	CRUD Operations Test
 
 @mytag
-Scenario: Get All Entities returns OK
-	When I send a HTTP GET Request to ./Entities
-	Then An HttpStatusCode.Ok should be returned
+Scenario: Get Entities returns OK
+	When I send a GET Request to ./Entities
+	Then An Ok HTTP Status Code should be returned
 
-Scenario: Get All Entities correct number of Entities
+Scenario: Get Entities returns Entities
 	Given An Entity was added to the Data Store
-	When I send a HTTP GET Request to ./Entities
-	Then one Entity should be returned
+	When I send a GET Request to ./Entities
+	Then The Entity should be returned
