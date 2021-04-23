@@ -4,8 +4,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Data;
-using NUnit.Framework;
-using Data.Models;
 
 namespace API.Tests
 {
