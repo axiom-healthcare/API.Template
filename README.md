@@ -105,3 +105,5 @@ Adjust API URL :  API | Properties | launchSetting.json | launch URL
 
 
     https://www.carlrippon.com/handling-concurrency-in-an-asp-net-core-web-api-with-dapper/
+
+    https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md
