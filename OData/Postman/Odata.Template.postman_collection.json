@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "5a29de4a-7e6b-4208-8845-bab16bdaccb3",
+		"name": "Odata.Template",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API.Metadata",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7192/odata/$metadata",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7192",
+					"path": [
+						"odata",
+						"$metadata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entities.Retrieve.all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7192/odata/Entities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7192",
+					"path": [
+						"odata",
+						"Entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entities.Retrieve",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7192/odata/Entities(1)",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7192",
+					"path": [
+						"odata",
+						"Entities(1)"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entities.Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"Test3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7192/odata/Entities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7192",
+					"path": [
+						"odata",
+						"Entities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entities.Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7192/odata/Entities(3)",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7192",
+					"path": [
+						"odata",
+						"Entities(3)"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entities.Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": 1,\r\n    \"Name\": \"Test8\",\r\n    \"Timestamp\": \"AAAAAAAAw1E=\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7192/odata/Entities(1)",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7192",
+					"path": [
+						"odata",
+						"Entities(1)"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
