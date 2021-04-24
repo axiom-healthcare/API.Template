@@ -20,7 +20,6 @@ namespace API.Tests
                    .Options;
 
         public static Context CreateContext() => 
-            new Context(Config.GetContextOptions());
-
+            new(Config.GetContextOptions());
     }
 }

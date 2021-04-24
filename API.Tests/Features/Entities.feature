@@ -4,9 +4,12 @@
 @mytag
 Scenario: Get Entities returns OK
 	When I send a GET Request to ./Entities
-	Then An Ok HTTP Status Code should be returned
+	Then an Ok HTTP Status Code should be returned
 
 Scenario: Get Entities returns Entities
-	Given An Entity was added to the Data Store
+	Given these Two Entities was added to the Data Store:
+	| Name  |
+	| Test  |
+	| Test2 |
 	When I send a GET Request to ./Entities
-	Then The Entity should be returned
+	Then the two Entity should be returned

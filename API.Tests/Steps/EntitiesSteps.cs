@@ -1,69 +1,54 @@
-﻿using Data;
-using Data.Models;
+﻿using Data.Models;
 using FluentAssertions;
-using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace API.Tests.Steps
 {
     [Binding]
-    public class EntitiesSteps: IntergationTest
+    public class EntitiesSteps : DataSteps
     {
-        protected new Context data = null!;
-        private HttpResponseMessage response;
-        private Entity entity;
+        private HttpResponseMessage _response;
 
-        [Before]
-        public void Before()
+        [Given(@"these Two Entities was added to the Data Store:")]
+        public void TwoEntitiesAddedToDataStore(Table table)
         {
-            data = Config.CreateContext();
-        }
-
-        [Given(@"An Entity was added to the Data Store")]
-        public void AnEntityWasAddedToDataStore()
-        {
-            entity = new Entity()
-            {
-                Name = "Test"
-            };
-
-            data.Entities.Add(entity);
+            table.CreateSet<Entity>()
+                .ToList()
+                .ForEach(entity => data.Entities.Add(entity));
+  
             data.SaveChanges();
         }
 
         [When(@"I send a GET Request to \./Entities")]
         public async Task WhenGetEntities()
         {
-            response = await client.GetAsync(Routes.Entities.GetAll);
+            _response = await client.GetAsync(Routes.Entities.GetAll);
         }
         
-        [Then(@"An Ok HTTP Status Code should be returned")]
+        [Then(@"an Ok HTTP Status Code should be returned")]
         public void ThenOKCodeShouldBeReturned()
         {
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            _response.StatusCode
+                .Should()
+                .Be(HttpStatusCode.OK);
         }
 
-        [Then(@"The Entity should be returned")]
-        public async Task ThenThenEntityShouldBeReturned()
+        [Then(@"the two Entity should be returned")]
+        public async Task ThenEntityShouldBeReturned()
         {
-            var content = await response.Content.ReadAsStringAsync();
-            var entities = JsonConvert.DeserializeObject<Entity[]>(content);
-            var count = entities.Length;
+            var content = await _response.Content.ReadAsStringAsync();
+            var entities = Deserialize<List<Entity>>(content);
 
-            count.Should().Be(1);
-            entities[0].Id.Should().Be(entity.Id);
-        }
-
-        [After]
-        public void After()
-        {
-            if (data != null)
-            {
-                data.Dispose();
-            }
+            data.Entities
+                .ToList()
+                .Should()
+                .BeEquivalentTo(entities);
         }
     }
 }

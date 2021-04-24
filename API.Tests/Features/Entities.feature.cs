@@ -106,7 +106,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I send a GET Request to ./Entities", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
- testRunner.Then("An Ok HTTP Status Code should be returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("an Ok HTTP Status Code should be returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -139,14 +139,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Name"});
+                table1.AddRow(new string[] {
+                            "Test"});
+                table1.AddRow(new string[] {
+                            "Test2"});
 #line 10
- testRunner.Given("An Entity was added to the Data Store", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("these Two Entities was added to the Data Store:", ((string)(null)), table1, "Given ");
 #line hidden
-#line 11
+#line 14
  testRunner.When("I send a GET Request to ./Entities", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 12
- testRunner.Then("The Entity should be returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 15
+ testRunner.Then("the two Entity should be returned", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
