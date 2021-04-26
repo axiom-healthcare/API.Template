@@ -21,10 +21,9 @@ namespace Business.Controllers
 
         // GET: api/Entities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Entity>>> GetEntities()
-        {
-            return await _context.Entities.ToListAsync();
-        }
+        public async Task<ActionResult<IEnumerable<Entity>>> GetEntities() => 
+            await _context.Entities.ToListAsync();
+        
 
         // GET: api/Entities/5
         [HttpGet("{id}")]
@@ -41,7 +40,6 @@ namespace Business.Controllers
         }
 
         // PUT: api/Entities/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         // Complete Entity is required in body of request
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEntity(int id, Entity entity)
@@ -73,7 +71,6 @@ namespace Business.Controllers
         }
 
         // POST: api/Entities
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Entity>> PostEntity(Entity entity)
         {
@@ -100,9 +97,7 @@ namespace Business.Controllers
             return NoContent();
         }
 
-        private bool EntityExists(int id)
-        {
-            return _context.Entities.Any(e => e.Id == id);
-        }
+        private bool EntityExists(int id) =>
+            _context.Entities.Any(e => e.Id == id);
     }
 }

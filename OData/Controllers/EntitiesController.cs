@@ -18,16 +18,12 @@ namespace Business.Controllers
         }
 
         [EnableQuery]
-        public IActionResult Get()
-        {
-            return Ok(_context.Entities);
-        }
+        public IActionResult Get() => 
+            Ok(_context.Entities);
 
         [EnableQuery]
-        public IActionResult Get(int key)
-        {
-            return Ok(_context.Entities.FirstOrDefault(entity => entity.Id == key));
-        }
+        public IActionResult Get(int key) => 
+            Ok(_context.Entities.FirstOrDefault(entity => entity.Id == key));
 
         [EnableQuery]
         public IActionResult Post([FromBody]Entity entity)
