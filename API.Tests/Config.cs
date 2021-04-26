@@ -1,9 +1,9 @@
-﻿using Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Data.Components;
 
-namespace API.Tests
+namespace Service.Rest.Tests
 {
     public class Config
     {

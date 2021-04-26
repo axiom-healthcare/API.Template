@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Data.Components;
 
 namespace Data.Tests
 {

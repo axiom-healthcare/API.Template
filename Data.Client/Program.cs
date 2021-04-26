@@ -1,5 +1,6 @@
-﻿using Data.Models;
-using System;
+﻿using System;
+using Data.Components;
+using Data.Models;
 
 namespace Data.Client
 {

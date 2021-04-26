@@ -2,11 +2,11 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Data;
 using System.Linq;
 using Newtonsoft.Json;
+using Data.Components;
 
-namespace API.Tests
+namespace Service.Rest.Tests
 {
     public static class ServiceCollectionExtensions
     {
@@ -21,7 +21,8 @@ namespace API.Tests
 
     public class BaseSteps
     {
-        public static T Deserialize<T>(string content) => JsonConvert.DeserializeObject<T>(content);
+        public static T Deserialize<T>(string content) => 
+            JsonConvert.DeserializeObject<T>(content);
         protected readonly HttpClient client;
 
         protected BaseSteps() {

@@ -1,4 +1,4 @@
-﻿namespace API.Tests
+﻿namespace Service.Rest.Tests
 {
     public static class Routes
     {

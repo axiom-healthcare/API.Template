@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Data.Models;
 
-namespace Data
+namespace Data.Components
 {
     public class Context: DbContext
     {

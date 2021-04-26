@@ -1,16 +1,16 @@
-﻿using Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.AspNetCore.OData.Query;
 using System.Linq;
-using Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Data.Components;
+using Data.Models;
 
-namespace OData.Controllers
+namespace Business.Controllers
 {
     public class EntitiesController: ODataController
     {
-        private Context _context;
+        private readonly Context _context;
 
         public EntitiesController(Context context)
         {

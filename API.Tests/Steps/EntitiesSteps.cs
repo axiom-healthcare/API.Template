@@ -1,5 +1,4 @@
-﻿using Data.Models;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +7,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+using Data.Models;
 
-namespace API.Tests.Steps
+namespace Service.Rest.Tests.Steps
 {
     [Binding]
     public class EntitiesSteps : DataSteps
     {
-        private ScenarioContext _scenarioContext;
         private HttpResponseMessage _response;
         private int _Id;
-
-
-        public EntitiesSteps(ScenarioContext scenarioContext)
-        {
-            _scenarioContext = scenarioContext;
-        }
 
         [When(@"I send a POST request with header content type and body to \./Entities")]
         public async Task SendPOSTRequest()
@@ -60,7 +53,7 @@ namespace API.Tests.Steps
         }
 
         [Then(@"an OK HTTP Code should be returned")]
-        public async Task ReceiveOK()
+        public void ReceiveOK()
         {
             _response
                 .StatusCode

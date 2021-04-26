@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
-namespace API.Tests.Hooks
+namespace Service.Rest.Tests
 {
     [Binding]
     public sealed class Hooks

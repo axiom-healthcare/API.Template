@@ -1,8 +1,8 @@
-﻿using Data;
+﻿using TechTalk.SpecFlow;
+using Data.Components;
 using Data.Models;
-using TechTalk.SpecFlow;
 
-namespace API.Tests
+namespace Service.Rest.Tests
 {
     [Binding]
     public class DataSteps: BaseSteps

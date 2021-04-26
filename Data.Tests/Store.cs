@@ -4,12 +4,13 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Data.Components;
 
 namespace Data
 {
     public static class Store
     {
-        private static Dictionary<Provider, Func<Context>> _providers = new Dictionary<Provider, Func<Context>>()
+        private static readonly Dictionary<Provider, Func<Context>> _providers = new()
         {
             {Provider.InMemory, CreateSQLInMemoryContext },
             {Provider.SQLite, CreateSQLiteContext },
@@ -17,7 +18,7 @@ namespace Data
         };
 
         /// <summary>
-        /// A subset of Datastore Providers for testing the Data Layer
+        /// A subset of supported Data Store Providers for testing the Data Layer
         /// </summary>
         public enum Provider
         {
@@ -26,10 +27,8 @@ namespace Data
             SQL
         }
 
-        public static Context CreateContext(Provider provider)
-        {
-            return _providers[provider]();
-        }
+        public static Context CreateContext(Provider provider) => 
+            _providers[provider]();
 
         public static Context CreateSQLContext()
         {
@@ -55,7 +54,7 @@ namespace Data
                 .UseSqlite(connection)
                 .Options;
 
-            using Context context = new Context(options);
+            using Context context = new(options);
             context.Database.EnsureCreated();
 
             return new Context(options);

@@ -1,7 +1,7 @@
-﻿using Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using Data.Components;
 
 namespace Migrations
 {
@@ -14,7 +14,8 @@ namespace Migrations
         /// Returns the connection string to an SQL Local DB.
         /// </summary>
         /// <param name="MigrationsProject">Name of Migrations Project</param> 
-        public static string GetConnectionString() => new ConfigurationBuilder()
+        public static string GetConnectionString() => 
+            new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build()
                 .GetConnectionString("Data");
@@ -23,12 +24,13 @@ namespace Migrations
         /// Returns the SQL DB configuration
         /// </summary>
         /// <param name="MigrationsProject">Name of Migrations Project</param> 
-        public static DbContextOptions<Context> GetDbOptions(string MigrationsProject) =>
+        public static DbContextOptions<Context> GetDbOptions() =>
             new DbContextOptionsBuilder<Context>()
                 .UseSqlServer(GetConnectionString(), x => x.MigrationsAssembly(typeof(DbFactory).Assembly.FullName))
                 .Options;
 
-        public Context CreateDbContext(string[] args) => new(GetDbOptions("Migrations"));
+        public Context CreateDbContext(string[] args) => 
+            new(GetDbOptions());
     }
 
 }
