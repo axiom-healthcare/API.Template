@@ -10,15 +10,11 @@
 
         public static class Entities
         {
-            public const string GetAll = Root + "/Entities";
-
-            public const string Update = Base + "/Entities/{Id}";
-
-            public const string Delete = Base + "/Entities/{Id}";
-
-            public const string Get = Base + "/Entities/{Id}";
-
-            public const string Create = Base + "/Entities";
+            public static string Create() => Root + "/Entities";
+            public static string Get() => Root + "/Entities";
+            public static string Get(int Id) => Root + $"/Entities/{Id}";
+            public static string Update(int Id) => Root + $"/Entities/{Id}";
+            public static string Delete(int Id) => Root + $"/Entities/{Id}";
         }
     }
 }

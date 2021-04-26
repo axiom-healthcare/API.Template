@@ -34,6 +34,7 @@ namespace API.Tests
                     });
                 });
             client = api.CreateClient();
+            client.BaseAddress = new System.Uri("https://localhost:44329");
         }
     }
 }

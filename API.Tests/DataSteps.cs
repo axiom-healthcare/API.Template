@@ -1,4 +1,5 @@
 ﻿using Data;
+using Data.Models;
 using TechTalk.SpecFlow;
 
 namespace API.Tests
@@ -12,6 +13,14 @@ namespace API.Tests
         public void Before()
         {
             data = Config.CreateContext();
+
+            var entity = new Entity()
+            {
+                Name = "Entity"
+            };
+
+            data.Entities.Add(entity);
+            data.SaveChanges();
         }
 
         [After]
