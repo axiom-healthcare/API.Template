@@ -23,10 +23,9 @@ namespace Service.Rest.Tests
     {
         public static T Deserialize<T>(string content) => 
             JsonConvert.DeserializeObject<T>(content);
-        protected readonly HttpClient client;
 
-        protected BaseSteps() {
-            var api = new WebApplicationFactory<Startup>()
+        public static WebApplicationFactory<Startup> GetAPI() =>
+            new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder => {
                     builder.ConfigureServices(services =>
                     {
@@ -34,6 +33,11 @@ namespace Service.Rest.Tests
                         services.AddDbContext<Context>(options => options.UseSqlServer(Config.GetConnectionString()));
                     });
                 });
+
+        protected readonly HttpClient client;
+
+        protected BaseSteps() {
+            var api = GetAPI();
             client = api.CreateClient();
             client.BaseAddress = new System.Uri("https://localhost:44329");
         }
