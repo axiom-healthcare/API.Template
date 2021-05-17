@@ -11,9 +11,8 @@ namespace Migrations
     public class DbFactory : IDesignTimeDbContextFactory<Context>
     {
         /// <summary>
-        /// Returns the connection string to an SQL Local DB.
+        /// Returns the connection string of Data Store.
         /// </summary>
-        /// <param name="MigrationsProject">Name of Migrations Project</param> 
         public static string GetConnectionString() => 
             new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -23,14 +22,16 @@ namespace Migrations
         /// <summary>
         /// Returns the SQL DB configuration
         /// </summary>
-        /// <param name="MigrationsProject">Name of Migrations Project</param> 
         public static DbContextOptions<Context> GetDbOptions() =>
             new DbContextOptionsBuilder<Context>()
-                .UseSqlServer(GetConnectionString(), x => x.MigrationsAssembly(typeof(DbFactory).Assembly.FullName))
+                .UseSqlServer(GetConnectionString(), options =>
+                    options
+                        .MigrationsAssembly(typeof(DbFactory)
+                        .Assembly
+                        .FullName))
                 .Options;
 
-        public Context CreateDbContext(string[] args) => 
-            new(GetDbOptions());
+        public Context CreateDbContext(string[] args) => new(GetDbOptions());
     }
 
 }
