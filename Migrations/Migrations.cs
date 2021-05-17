@@ -31,7 +31,8 @@ namespace Migrations
                         .FullName))
                 .Options;
 
-        public Context CreateDbContext(string[] args) => new(GetDbOptions());
+        public Context CreateDbContext(string[] args) => 
+            new(GetDbOptions());
     }
 
 }
