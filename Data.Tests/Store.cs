@@ -10,11 +10,11 @@ namespace Data
 {
     public static class Store
     {
-        private static readonly Dictionary<Provider, Func<Context>> _providers = new()
+        private static readonly Dictionary<Provider, Func<DbContextOptions<Context>>> _providers = new()
         {
-            {Provider.InMemory, CreateSQLInMemoryContext },
-            {Provider.SQLite, CreateSQLiteContext },
-            {Provider.SQL, CreateSQLContext }
+            { Provider.InMemory, GetSQLInMemoryContextOptions },
+            { Provider.SQLite, GetSQLiteDbContextOptions },
+            { Provider.SQL, GetSQLDbContextOptions }
         };
 
         /// <summary>
@@ -24,49 +24,35 @@ namespace Data
         {
             InMemory,
             SQLite,
-            SQL
+            SQL 
         }
 
-        public static Context CreateContext(Provider provider) => 
-            _providers[provider]();
+        public static Context CreateContext(Provider provider) =>
+            new Context(_providers[provider]());
 
-        public static Context CreateSQLContext()
-        {
-            var connection = new ConfigurationBuilder()
+        public static string GetSQLConnection() =>
+            new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .Build()
                 .GetConnectionString("Test");
 
-            var options = new DbContextOptionsBuilder<Context>()
-                .UseSqlServer(connection)
+        public static SqliteConnection GetSqliteConnection() =>
+            new SqliteConnection("Data Source=Test;Mode=Memory;Cache=Shared");
+
+        public static DbContextOptions<Context> GetSQLDbContextOptions() =>
+            new DbContextOptionsBuilder<Context>()
+                .UseSqlServer(GetSQLConnection())
                 .Options;
 
-            return new Context(options);
-        }
-
-        public static Context CreateSQLiteContext()
-        {
-            var connection = new SqliteConnection("Data Source=Test;Mode=Memory;Cache=Shared");
-            connection.Open();
-
-            var options = new DbContextOptionsBuilder<Context>()
-                .UseSqlite(connection)
-                .Options;
-
-            using Context context = new(options);
-            context.Database.EnsureCreated();
-
-            return new Context(options);
-        }
-
-        public static Context CreateSQLInMemoryContext()
-        {
-            var options = new DbContextOptionsBuilder<Context>()
+        public static DbContextOptions<Context> GetSQLInMemoryContextOptions() =>
+            new DbContextOptionsBuilder<Context>()
                 .UseInMemoryDatabase("Test")
                 .Options;
 
-            return new Context(options);
-        }
+        public static DbContextOptions<Context> GetSQLiteDbContextOptions() => 
+            new DbContextOptionsBuilder<Context>()
+                .UseSqlite(GetSqliteConnection())
+                .Options; 
     }
 }
