@@ -8,31 +8,31 @@ using Data.Components;
 
 namespace Service.Rest.Tests
 {
-    public static class ServiceCollectionExtensions
+    public static class Extentions
     {
-        public static IServiceCollection Remove<T>(this IServiceCollection services)
-        {
-            var serviceDescriptor = services.First(descriptor => descriptor.ServiceType == typeof(T));
-            if (serviceDescriptor != null) services.Remove(serviceDescriptor);
+        public static void Remove(this ServiceDescriptor serviceDescriptor, IServiceCollection services) => 
+            services.Remove(serviceDescriptor);
 
-            return services;
-        }
+        public static void Remove<T>(this IServiceCollection services) => 
+            services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(T))?.Remove(services);
     }
+
 
     public class BaseSteps
     {
         public static T Deserialize<T>(string content) => 
             JsonConvert.DeserializeObject<T>(content);
 
-        public static WebApplicationFactory<Startup> GetAPI() =>
+        public static WebApplicationFactory<Startup> GetAPI() => 
             new WebApplicationFactory<Startup>()
-                .WithWebHostBuilder(builder => {
-                    builder.ConfigureServices(services =>
-                    {
-                        services.Remove<DbContextOptions<Context>>();
-                        services.AddDbContext<Context>(options => options.UseSqlServer(Config.GetConnectionString()));
-                    });
+            .WithWebHostBuilder(builder => 
+            {
+                builder.ConfigureServices(services =>
+                {
+                    services.Remove<DbContextOptions<Context>>();
+                    services.AddDbContext<Context>(options => options.UseSqlServer(Config.GetConnectionString()));
                 });
+            });
 
         protected readonly HttpClient client;
 
